@@ -1,0 +1,12 @@
+[
+    {
+        "name": "todolist",
+        "columns":[
+            {"name":"id","type":"int","increment":"auto"},
+            {"name":"name","type":"nvarchar","length":50},
+            {"name":"comments","type":"nvarchar","length":50},
+            {"name":"ismarked","type":"int"},
+            {"name":"order","type":"int"}
+        ]
+    }
+]
