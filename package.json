@@ -4,7 +4,7 @@
   "description": "fullstackdb",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./_root/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   "homepage": "https://github.com/IonaSwr/fullstackdb#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "node-watch": "^0.7.0"
   }
 }
