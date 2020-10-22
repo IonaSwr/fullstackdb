@@ -4,6 +4,7 @@
   "description": "fullstackdb",
   "main": "index.js",
   "scripts": {
+    "start": "node ./index.js",
     "test": "node ./_root/index.js"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "node-watch": "^0.7.0"
+    "node-watch": "^0.7.0",
+    "vhost": "^3.0.2"
   }
 }

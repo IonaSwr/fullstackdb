@@ -1,1 +1,12 @@
+
+<script>
+    window.onload = function(){
+        fetch('/work_missions/test?name=asdffds',{method: 'POST'})
+        .then(response => {
+            return response.json()})
+        .then(data =>{ 
+            alert(JSON.stringify(data))
+        });
+    }
+</script>
 <h1>works</h1>
