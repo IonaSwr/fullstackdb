@@ -3,6 +3,7 @@ const fs = require('fs');
 const express = require( 'express' );
 var config = require('../config.json');
 var promiseQuery = require('./server/db');
+const { get } = require('http');
 
 // fs.watch('apis/home', function (event, filename) {
 //     console.log('event is: ' + event);
@@ -20,7 +21,17 @@ const sysdbs= {
 }
 
 var app = express();
+
+
+app.get('/',function(req,res){
+
+    console.log("get success");
+    res.send("OK");
+});
+
 app.get('/updateprocs',function(req,res){
+    
+    console.log("get updateprocs success");
     var dbs = [];  
     var parameters = [];
 

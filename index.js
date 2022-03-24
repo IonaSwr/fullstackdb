@@ -1,6 +1,6 @@
 // var config = require('./config.json');
 // var express = require( 'express' );
-// var vhost = require( 'vhost' );
+ var vhost = require( 'vhost' );
 // const path = require('path');
 // const mysql = require('mysql');
 // var fs = require('fs');
@@ -24,6 +24,16 @@ fs.watch('models', function (event, filename) {
 });
 
 var app = express();
+
+
+// app.get('/',function(req,res){
+
+//     console.log("get success");
+//     res.send("OK");
+// });
+
+app.use(vhost("localhost",express.static( "client/") ));
+
 app.get('/updateprocs',function(req,res){
     promiseQuery(query)
     .then(result => {
