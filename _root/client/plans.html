@@ -1,7 +1,4 @@
 
-<script src='scripts/ng.js'></script>
-<script src='scripts/day.js'></script>
-
 
 
 <style>
@@ -21,7 +18,7 @@
     var scope;
     var countDownDate = (new Date()).getTime();
     angular.module('app', [])
-        .controller('app', function ($scope, $http, $timeout,$interval) {
+        .controller('app', function ($scope, $http, $timeout) {
             scope = $scope;
             $scope.newMission = {}
 
@@ -280,7 +277,7 @@
                     })
             }
 
-            //$scope.getData();
+            $scope.getData();
 
             $scope.format = function (theDate) {
                 return dayjs(theDate).format('DD/MM/YYYY')
@@ -347,21 +344,6 @@
                 $scope.runNextFunction();
             }
 
-            if(localStorage["timeOutSeconds"] == null)
-                localStorage["timeOutSeconds"] = 10;
-            $scope.timeOutSeconds = localStorage["timeOutSeconds"];
-            if(localStorage["RunAlways"] == null)
-                localStorage["RunAlways"] = true;
-            $scope.RunAlways = localStorage["RunAlways"];
-            if($scope.RunAlways == null)
-                $scope.RunAlways = true;
-
-            // $interval(function(){
-            //     if($scope.RunAlways==true)
-            //         $scope.runAllTests();
-            // }, 1000)
-            
-
             $scope.runInEveryMinutes = 10;
             $scope.theInterval =
                 $scope.loopTestsRuning = function () {
@@ -415,7 +397,6 @@
         scope.addLog(message);
         console.olderror(message);
     }
-
 
     var styleSelected = null;
     var movingElement = null;
@@ -473,16 +454,13 @@
           }
     }   
 
+    
 
 </script>
 <style>
     .dayInClendar:hover {
         background-color: #ccc;
     }
-    *{
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-    }
-    
     .sezesInputs {
         width:30px;
         font-size:9px;
@@ -493,15 +471,27 @@
         margin: auto;
         
     }
-    
+    .dot {
+        width: 2px;
+        height: 2px;
+        background-color: black;
+        position: absolute;
+    }
     #testWindow {
         position:fixed;
         border:1px solid red
     }
 </style>
+
+
 <div ng-app="app" ng-controller="app" style="padding: 20px;">
 
     <div id="testWindow">g</div>
+
+    <video width="64" height="48" autoplay loop muted style="position:fixed;top:0;right:0">
+        <source src="~/video/movie.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <br /><br />
     <table style="width:100%">
         <tr>
@@ -521,6 +511,7 @@
         </tr>
     </table>
     <hr>
+
     <table style="width: 100%;">
         <tr class="row">
             <th class="col-md-4">Name</th>
@@ -543,18 +534,17 @@
             </tr>
             <tr ng-show='missionnumber==newMission.number'>
                 <td colspan="100">
-                    <div style="float:left;width: 60%;">
-                        <span class="btn btn-xs btn-default" style="float:left" ng-click="orderFirstMission(missionorder)">Make first priority</span>
-                        <span class="btn btn-xs btn-danger" style="float:right" ng-click="deleteMission(missionnumber)" ng-hide="missions[missionnumber]==null">delete</span>
-                        <span ng-if="futurePlans[missionnumber]" class="btn btn-xs btn-default" ng-click="subHour(missionnumber)">-</span>
-                        <input ng-if="futurePlans[missionnumber]" ng-model="futurePlans[missionnumber].hour" ng-blur="setHoursForMission(missionnumber,futurePlans[missionnumber])" style="width:25px;border:0" />
-                        <span class="btn btn-xs btn-default" ng-click="addHour(missionnumber)">+</span>
-                        <br />
-                        <textarea ng-model="commentsMissions[missionnumber]" ng-change="commentsMissionsChange()"
-                                style="height:300px;width:100%;max-width:1900px !important"></textarea>
-                        <input class="btn btn-xs btn-default" value="Run" ng-click="runTest(missionnumber)" />
-                    </div>      
-      
+
+                    <span class="btn btn-xs btn-default" style="float:left" ng-click="orderFirstMission(missionorder)">Make first priority</span>
+                    <span class="btn btn-xs btn-danger" style="float:right" ng-click="deleteMission(missionnumber)" ng-hide="missions[missionnumber]==null">delete</span>
+                    <span ng-if="futurePlans[missionnumber]" class="btn btn-xs btn-default" ng-click="subHour(missionnumber)">-</span>
+                    <input class="sizesBorders" ng-if="futurePlans[missionnumber]" ng-model="futurePlans[missionnumber].hour" ng-blur="setHoursForMission(missionnumber,futurePlans[missionnumber])" style="width:25px;border:0" />
+                    <span class="btn btn-xs btn-default" ng-click="addHour(missionnumber)">+</span>
+                    <br />
+                    <textarea ng-model="commentsMissions[missionnumber]" ng-change="commentsMissionsChange()"
+                              style="height:300px;width:60%;max-width:1900px !important"></textarea>
+
+
                     <div style="float:right; width:39%">
                         <div style="margin:auto;width:40px"><input class="sezesInputs" id="settop" placeholder="top" /></div>
 
@@ -630,7 +620,9 @@
                         <label>border</label>
                         <input type="color" class="sezesInputs" id="setborder-color">
                     </div>
-          </td>
+                    <input class="btn btn-xs btn-default" value="Run" ng-click="runTest(missionnumber)" />
+
+                </td>
             </tr>
         </tbody>
     </table>
@@ -658,7 +650,11 @@
             </ul>
         </span>
     </div>
-    <footer style="height: 40px;
+
+
+
+
+    <footer style="        height: 40px;
         width: 100%;
         position: fixed;
         bottom: 0;
@@ -666,14 +662,24 @@
         background-color: rgba(255,255,255,0.5);
         font-family: sans-serif;">
         <div class="container">
-            <button class="btn btn-success" ng-click="PublishMissionPlans()">Publish</button>
+            <span class="btn btn-success" ng-click="PublishMissionPlans()">Publish <span class="glyphicon glyphicon-send"></span></span>
             <input ng-model="PublishName" />|
-            <button class="btn btn-success" ng-click="dowload()">DownLoad </button>
-            <button style="float:right;margin:3px" class="btn btn-danger" ng-show="selectedplan" ng-click="deletePlanFromServer()">Server </button>
-            <button style="float:right;margin:3px" class="btn btn-danger" onclick="resetMissions()">Local </button>
+            <span class="btn btn-success" ng-click="dowload()">DownLoad <span class="glyphicon glyphicon-download"></span></span>
+
+
+
+
+            <span style="float:right;margin:3px" class="btn btn-danger" ng-show="selectedplan" ng-click="deletePlanFromServer()">Server <span class="glyphicon glyphicon-trash"></span></span>
+            <span style="float:right;margin:3px" class="btn btn-danger" onclick="resetMissions()">Local <span class="glyphicon glyphicon-trash"></span></span>
+
             <input type="file" id="theFile" style="float:right" />
-            <button style="float:right;margin:3px" class="btn btn-primary" ng-click="updaload()">Upload </button>
+
+            <span style="float:right;margin:3px" class="btn btn-primary" ng-click="updaload()">Upload <span class="glyphicon glyphicon-upload"></span></span>
+
+
         </div>
+
     </footer>
+
 </div>
->>>>>>> 55b72405aa2835891232f31812d84ac061fc6bef
+
